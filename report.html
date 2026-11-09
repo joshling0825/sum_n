@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>（姓名）、（學號）、得分 0/100</title>
+<style>
+:root{--bg:#f5f7fa;--card:#fff;--ink:#16213a;--mute:#5b6577;--line:#d9dfe8;--pass:#0f766e;--fail:#b42318;--code:#eef1f6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1624;--card:#17213a;--ink:#e8edf7;--mute:#9aa6bd;--line:#2a3654;--pass:#4fd1c5;--fail:#ff8a7a;--code:#0c1322}}
+:root[data-theme="dark"]{--bg:#0f1624;--card:#17213a;--ink:#e8edf7;--mute:#9aa6bd;--line:#2a3654;--pass:#4fd1c5;--fail:#ff8a7a;--code:#0c1322}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.75 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+main{max-width:780px;margin:0 auto;padding:24px 16px 64px}
+header{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:flex-end;border-bottom:3px solid var(--ink);padding-bottom:16px;margin-bottom:24px}
+h1{font-size:22px;margin:0 0 8px}
+.ids{display:flex;flex-wrap:wrap;gap:8px}
+.ids label{font-size:14px;color:var(--mute)}
+input[type=text]{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:4px 8px;width:9.5em}
+.total{font-size:56px;font-weight:700;line-height:1}
+.total small{font-size:20px;color:var(--mute);font-weight:400}
+section{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 20px;margin-bottom:20px}
+h2{font-size:18px;margin:0 0 4px}
+.q{color:var(--mute);margin:0 0 12px;border-left:3px solid var(--line);padding-left:10px}
+h3{font-size:15px;margin:16px 0 4px}
+p,ul{margin:6px 0}
+pre{background:var(--code);border-radius:6px;padding:10px 12px;overflow-x:auto;font:13px/1.6 ui-monospace,Menlo,Consolas,monospace;margin:8px 0}
+code{font:13px ui-monospace,Menlo,Consolas,monospace;background:var(--code);padding:1px 4px;border-radius:4px}
+.wrap{overflow-x:auto}
+table{border-collapse:collapse;min-width:100%}
+th,td{border:1px solid var(--line);padding:4px 10px;text-align:left;font-size:14px}
+.ai{border-top:1px dashed var(--line);margin-top:16px;padding-top:8px}
+.ai label{display:block;cursor:pointer}
+.badge{font-weight:700}
+.pass{color:var(--pass)}.fail{color:var(--fail)}
+.note{color:var(--mute);font-size:14px}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div>
+    <h1>作業成果與 AI 評分</h1>
+    <div class="ids">
+      <label>姓名 <input type="text" id="nm" value="（姓名）"></label>
+      <label>學號 <input type="text" id="sid" value="（學號）"></label>
+    </div>
+    <p class="note">請填入姓名與學號，網頁標題會同步更新。</p>
+  </div>
+  <div class="total"><span id="score">0</span><small>/100</small></div>
+</header>
+
+<section data-task>
+  <h2>第 1 題：Fortran 程式與編譯執行</h2>
+  <p class="q">輸出一個能做 1 加到 N 的 Fortran 程式並完成編譯，確認可以成功執行計算並輸出結果。</p>
+  <h3>作答過程</h3>
+  <p>先檢查環境，發現沒有 <code>gfortran</code>；嘗試用 apt 安裝，但沙盒沒有網路而失敗。因此只完成程式碼，並改為指引使用者在自己的電腦或線上編譯器編譯。</p>
+  <h3>答案</h3>
+<pre>program sum_n
+    implicit none
+    integer, parameter :: i8 = selected_int_kind(18)
+    integer(i8) :: n, i, total
+    integer :: ios
+    write (*, '(A)', advance='no') '請輸入 N (正整數): '
+    read (*, *, iostat=ios) n
+    if (ios /= 0 .or. n &lt; 1) then
+        write (*, '(A)') '輸入錯誤：N 必須是正整數。'
+        stop 1
+    end if
+    total = 0_i8
+    do i = 1_i8, n
+        total = total + i
+    end do
+    write (*, '(A,I0,A,I0)') '1 + 2 + ... + ', n, ' = ', total
+    write (*, '(A,I0)') '公式驗證 N(N+1)/2 = ', n * (n + 1_i8) / 2_i8
+end program sum_n</pre>
+<pre>gfortran -O2 -o sum_n sum_n.f90
+echo 100 | ./sum_n</pre>
+  <div class="ai">
+    <strong>AI 評分（達標需全部勾選）</strong>
+    <label><input type="checkbox" checked> 程式碼已完成</label>
+    <label><input type="checkbox"> 實際編譯成功</label>
+    <label><input type="checkbox"> 實際執行並輸出正確結果</label>
+    <p class="note">未達標：程式已寫好，但沙盒沒有編譯器，沒有真正編譯或執行過。</p>
+    <p><span class="badge"></span></p>
+  </div>
+</section>
+
+<section data-task>
+  <h2>第 2 題：三次隨機驗證</h2>
+  <p class="q">執行該程式進行三次隨機驗證，以確定該程式功能的正確性。</p>
+  <h3>作答過程</h3>
+  <p>用 Python 隨機抽出三個 N，分別以迴圈累加和公式 N(N+1)/2 算出標準答案，兩種算法一致。因為無法執行 Fortran，實際輸出需由使用者在線上編譯器執行後比對。</p>
+  <h3>答案</h3>
+  <div class="wrap"><table>
+    <tr><th>測試</th><th>輸入 N</th><th>預期輸出</th></tr>
+    <tr><td>1</td><td>5</td><td>15</td></tr>
+    <tr><td>2</td><td>52742</td><td>1390885653</td></tr>
+    <tr><td>3</td><td>511140445</td><td>130632277512969235</td></tr>
+  </table></div>
+  <div class="ai">
+    <strong>AI 評分（達標需全部勾選）</strong>
+    <label><input type="checkbox" checked> 已選出三個隨機 N 並算出預期值</label>
+    <label><input type="checkbox"> 三次實際輸出皆與預期值相符</label>
+    <p class="note">未達標：預期值正確，但 Fortran 程式本身沒有被執行，無法宣稱驗證完成。</p>
+    <p><span class="badge"></span></p>
+  </div>
+</section>
+
+<section data-task>
+  <h2>第 3 題：Git 版本控制與逐行註解</h2>
+  <p class="q">針對所開發的程式進行 Git 版本控制，將原版記錄（commit），之後指揮 AI 針對原程式碼進行逐行註解並編譯驗證成功後，再次記錄為新版。</p>
+  <h3>作答過程</h3>
+  <p>初始化儲存庫並提交原版（v1）；接著產生逐行註解版。因無編譯器，改把註解與空行移除後與 v1 比對，確認程式碼本體完全一致，再提交為 v2，並在 commit 訊息註明尚未實際編譯。</p>
+  <h3>答案</h3>
+<pre>edeb110 v3: 新增任務達成評分系統 score.py
+a546256 v2: 新增逐行註解（程式碼本體未變；沙盒無 gfortran，尚未實際編譯）
+4a255a0 v1: 原版 1 加到 N 的 Fortran 程式</pre>
+  <div class="ai">
+    <strong>AI 評分（達標需全部勾選）</strong>
+    <label><input type="checkbox" checked> v1 原版已 commit</label>
+    <label><input type="checkbox" checked> v2 逐行註解版已 commit</label>
+    <label><input type="checkbox"> v2 實際編譯驗證成功</label>
+    <p class="note">未達標：題目要求編譯成功後才提交 v2，這一步無法做到。</p>
+    <p><span class="badge"></span></p>
+  </div>
+</section>
+
+<section data-task>
+  <h2>第 4 題：推送到 GitHub</h2>
+  <p class="q">將本地端已經進行版本控制的程式碼，傳送到 GitHub 做雲端儲存。</p>
+  <h3>作答過程</h3>
+  <p>沙盒沒有網路，也沒有使用者的 GitHub 權限，<code>git push</code> 回報沒有設定推送目的地。我改為把儲存庫打包成 zip 與 git bundle，並提供推送指令。</p>
+  <h3>答案</h3>
+<pre>git remote add origin https://github.com/你的帳號/sum_n.git
+git push -u origin main</pre>
+  <div class="ai">
+    <strong>AI 評分（達標需全部勾選）</strong>
+    <label><input type="checkbox"> GitHub 遠端儲存庫已建立並設定 origin</label>
+    <label><input type="checkbox"> git push 成功，網頁上可見所有 commit</label>
+    <p class="note">未達標：推送必須由使用者在自己的環境完成。完成後可在此勾選。</p>
+    <p><span class="badge"></span></p>
+  </div>
+</section>
+
+<section>
+  <h2>第 5 題：任務達成評分系統（補充，不計入 100 分）</h2>
+  <p class="q">做一個任務達成評分系統，允許輸入前四題的結果，達標就給分。</p>
+  <h3>作答過程與答案</h3>
+  <p>完成 <code>score.py</code>：每題 25 分，所有條件達標才給分，滿分 100。支援互動問答與快速模式，並以多組輸入測試過。這個網頁的評分區也採同一規則。</p>
+<pre>python3 score.py          # 互動模式
+python3 score.py 1010     # 快速模式：1=達標 0=未達標</pre>
+  <p><span class="badge pass">已完成並測試</span></p>
+</section>
+</main>
+<script>
+(function(){
+  var tasks=document.querySelectorAll('[data-task]');
+  function update(){
+    var total=0;
+    tasks.forEach(function(t){
+      var boxes=t.querySelectorAll('input[type=checkbox]');
+      var ok=Array.prototype.every.call(boxes,function(b){return b.checked;});
+      if(ok)total+=25;
+      var badge=t.querySelector('.badge');
+      badge.textContent=ok?'達標　25/25':'未達標　0/25';
+      badge.className='badge '+(ok?'pass':'fail');
+    });
+    document.getElementById('score').textContent=total;
+    document.title=document.getElementById('nm').value+'、'+document.getElementById('sid').value+'、得分 '+total+'/100';
+  }
+  document.addEventListener('input',update);
+  document.addEventListener('change',update);
+  update();
+})();
+</script>
+</body>
+</html>
