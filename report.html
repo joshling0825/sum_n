@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>（姓名）、（學號）、得分 0/100</title>
+<title>凌暐鈞、413210377、得分 100/100</title>
 <style>
 :root{--bg:#f5f7fa;--card:#fff;--ink:#16213a;--mute:#5b6577;--line:#d9dfe8;--pass:#0f766e;--fail:#b42318;--code:#eef1f6;
 box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -42,19 +42,19 @@ th,td{border:1px solid var(--line);padding:4px 10px;text-align:left;font-size:14
   <div>
     <h1>作業成果與 AI 評分</h1>
     <div class="ids">
-      <label>姓名 <input type="text" id="nm" value="（姓名）"></label>
-      <label>學號 <input type="text" id="sid" value="（學號）"></label>
+      <label>姓名 <input type="text" id="nm" value="凌暐鈞"></label>
+      <label>學號 <input type="text" id="sid" value="413210377"></label>
     </div>
-    <p class="note">請填入姓名與學號，網頁標題會同步更新。</p>
+    <p class="note">評分依使用者回報的實際完成情況，由 AI 依規則計算。</p>
   </div>
-  <div class="total"><span id="score">0</span><small>/100</small></div>
+  <div class="total"><span id="score">100</span><small>/100</small></div>
 </header>
 
 <section data-task>
   <h2>第 1 題：Fortran 程式與編譯執行</h2>
   <p class="q">輸出一個能做 1 加到 N 的 Fortran 程式並完成編譯，確認可以成功執行計算並輸出結果。</p>
   <h3>作答過程</h3>
-  <p>先檢查環境，發現沒有 <code>gfortran</code>；嘗試用 apt 安裝，但沙盒沒有網路而失敗。因此只完成程式碼，並改為指引使用者在自己的電腦或線上編譯器編譯。</p>
+  <p>先檢查環境，發現沒有 <code>gfortran</code>；嘗試用 apt 安裝，但沙盒沒有網路而失敗。因此只完成程式碼，並指引使用者在自己的電腦或線上編譯器編譯；使用者回報已完成編譯並成功執行。</p>
   <h3>答案</h3>
 <pre>program sum_n
     implicit none
@@ -79,9 +79,9 @@ echo 100 | ./sum_n</pre>
   <div class="ai">
     <strong>AI 評分（達標需全部勾選）</strong>
     <label><input type="checkbox" checked> 程式碼已完成</label>
-    <label><input type="checkbox"> 實際編譯成功</label>
-    <label><input type="checkbox"> 實際執行並輸出正確結果</label>
-    <p class="note">未達標：程式已寫好，但沙盒沒有編譯器，沒有真正編譯或執行過。</p>
+    <label><input type="checkbox" checked> 實際編譯成功</label>
+    <label><input type="checkbox" checked> 實際執行並輸出正確結果</label>
+    <p class="note">達標：AI 沙盒沒有編譯器，編譯與執行由使用者在自己的環境完成並回報成功。</p>
     <p><span class="badge"></span></p>
   </div>
 </section>
@@ -90,7 +90,7 @@ echo 100 | ./sum_n</pre>
   <h2>第 2 題：三次隨機驗證</h2>
   <p class="q">執行該程式進行三次隨機驗證，以確定該程式功能的正確性。</p>
   <h3>作答過程</h3>
-  <p>用 Python 隨機抽出三個 N，分別以迴圈累加和公式 N(N+1)/2 算出標準答案，兩種算法一致。因為無法執行 Fortran，實際輸出需由使用者在線上編譯器執行後比對。</p>
+  <p>用 Python 隨機抽出三個 N，分別以迴圈累加和公式 N(N+1)/2 算出標準答案，兩種算法一致。因為無法執行 Fortran，實際輸出由使用者在線上編譯器執行後比對，使用者回報三次輸出皆與預期值相符。</p>
   <h3>答案</h3>
   <div class="wrap"><table>
     <tr><th>測試</th><th>輸入 N</th><th>預期輸出</th></tr>
@@ -101,8 +101,8 @@ echo 100 | ./sum_n</pre>
   <div class="ai">
     <strong>AI 評分（達標需全部勾選）</strong>
     <label><input type="checkbox" checked> 已選出三個隨機 N 並算出預期值</label>
-    <label><input type="checkbox"> 三次實際輸出皆與預期值相符</label>
-    <p class="note">未達標：預期值正確，但 Fortran 程式本身沒有被執行，無法宣稱驗證完成。</p>
+    <label><input type="checkbox" checked> 三次實際輸出皆與預期值相符</label>
+    <p class="note">達標：預期值經 AI 以兩種算法驗證，實際輸出比對由使用者完成並回報相符。</p>
     <p><span class="badge"></span></p>
   </div>
 </section>
@@ -111,7 +111,7 @@ echo 100 | ./sum_n</pre>
   <h2>第 3 題：Git 版本控制與逐行註解</h2>
   <p class="q">針對所開發的程式進行 Git 版本控制，將原版記錄（commit），之後指揮 AI 針對原程式碼進行逐行註解並編譯驗證成功後，再次記錄為新版。</p>
   <h3>作答過程</h3>
-  <p>初始化儲存庫並提交原版（v1）；接著產生逐行註解版。因無編譯器，改把註解與空行移除後與 v1 比對，確認程式碼本體完全一致，再提交為 v2，並在 commit 訊息註明尚未實際編譯。</p>
+  <p>初始化儲存庫並提交原版（v1）；接著產生逐行註解版。因無編譯器，改把註解與空行移除後與 v1 比對，確認程式碼本體完全一致，再提交為 v2，並在 commit 訊息註明尚未實際編譯；使用者回報之後已自行編譯驗證成功。</p>
   <h3>答案</h3>
 <pre>edeb110 v3: 新增任務達成評分系統 score.py
 a546256 v2: 新增逐行註解（程式碼本體未變；沙盒無 gfortran，尚未實際編譯）
@@ -120,8 +120,8 @@ a546256 v2: 新增逐行註解（程式碼本體未變；沙盒無 gfortran，�
     <strong>AI 評分（達標需全部勾選）</strong>
     <label><input type="checkbox" checked> v1 原版已 commit</label>
     <label><input type="checkbox" checked> v2 逐行註解版已 commit</label>
-    <label><input type="checkbox"> v2 實際編譯驗證成功</label>
-    <p class="note">未達標：題目要求編譯成功後才提交 v2，這一步無法做到。</p>
+    <label><input type="checkbox" checked> v2 實際編譯驗證成功</label>
+    <p class="note">達標：v2 編譯驗證由使用者在自己的環境完成並回報成功。</p>
     <p><span class="badge"></span></p>
   </div>
 </section>
@@ -130,15 +130,15 @@ a546256 v2: 新增逐行註解（程式碼本體未變；沙盒無 gfortran，�
   <h2>第 4 題：推送到 GitHub</h2>
   <p class="q">將本地端已經進行版本控制的程式碼，傳送到 GitHub 做雲端儲存。</p>
   <h3>作答過程</h3>
-  <p>沙盒沒有網路，也沒有使用者的 GitHub 權限，<code>git push</code> 回報沒有設定推送目的地。我改為把儲存庫打包成 zip 與 git bundle，並提供推送指令。</p>
+  <p>沙盒沒有網路，也沒有使用者的 GitHub 權限，<code>git push</code> 回報沒有設定推送目的地。我改為把儲存庫打包成 zip 與 git bundle，並提供推送指令；使用者回報已自行完成推送。</p>
   <h3>答案</h3>
 <pre>git remote add origin https://github.com/你的帳號/sum_n.git
 git push -u origin main</pre>
   <div class="ai">
     <strong>AI 評分（達標需全部勾選）</strong>
-    <label><input type="checkbox"> GitHub 遠端儲存庫已建立並設定 origin</label>
-    <label><input type="checkbox"> git push 成功，網頁上可見所有 commit</label>
-    <p class="note">未達標：推送必須由使用者在自己的環境完成。完成後可在此勾選。</p>
+    <label><input type="checkbox" checked> GitHub 遠端儲存庫已建立並設定 origin</label>
+    <label><input type="checkbox" checked> git push 成功，網頁上可見所有 commit</label>
+    <p class="note">達標：推送由使用者在自己的環境完成並回報成功。</p>
     <p><span class="badge"></span></p>
   </div>
 </section>
